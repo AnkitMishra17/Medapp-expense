@@ -1,0 +1,252 @@
+<%- include("../partials/header.ejs") %>
+<link rel="stylesheet" href="/styles1.css">
+<link rel="stylesheet" href="/bootstrap.min.css">
+    <div class="container">
+      <div class="mb-3">
+        <a class="btn btn-outline-primary" href="/employee/dashboard">Back to dashboard</a>
+        <a class="btn btn-outline-primary" href="/employee/logout">Logout</a>
+      </div>
+    <% let totalAmount = 0 %>
+    <div class="card bg-light mb-3">
+      <div class="card-header">
+        Travel Expenses
+      </div>
+      <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr class="table-primary">
+              <th scope="col">Amount</th>
+              <th scope="col">Mode of Travel</th>
+              <th scope="col">From</th>
+              <th scope="col">To</th>
+              <th scope="col">Detail</th>
+              <th scope="col">Date</th>
+              <th scope="col">Bill Image</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if(expenses) { totalAmount = 0 %>
+              <% expenses.forEach((expense) => { %>
+                <% if(expense.expenseType === "travel") { totalAmount += expense.amount %>
+                  <tr>
+                    <td>Rs. <%= expense.amount %></td>
+                    <td><%= expense.mode %></td>
+                    <% if(expense.from && expense.to) { %>
+                      <td><%= decode(expense.from) %></td>
+                      <td><%= decode(expense.to) %></td>
+                    <% } else { %>
+                      <td>NIL</td>
+                      <td>NIL</td>
+                    <% } %>
+                    <td><%= decode(expense.detail) %></td>
+                    <td><%= expense.createdAt.toDateString() %></td>
+                    <td><a href="/employee/expenses/bill?eid=<%= expense._id %>" class="btn btn-secondary" download>Download</a></td>
+                   <td>
+                      <% if(expense.status === true) { %>
+                        <div class="btn btn-success">Approved</div>
+                      <% } else if(expense.status === false){ %>
+                        <div class="btn btn-danger">disapproved</div>
+                      <% } else { %>
+                      <div class="btn btn-warning">pending</div>
+                      <% } %>
+                    </td>
+                  </tr>
+                <% } %>
+              <% }) %>
+            <% } %>
+          </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card-footer">
+        <p class="float-right">Total Amount = <%= totalAmount %></p>
+      </div>
+    </div>
+  <div class="card bg-light mb-3">
+      <div class="card-header">
+        Refreshment Expenses
+      </div>
+      <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr class="table-primary">
+              <th scope="col">Amount</th>
+              <th scope="col">Detail</th>
+              <th scope="col">Date</th>
+              <th scope="col">Bill Image</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if(expenses) { totalAmount = 0 %>
+              <% expenses.forEach((expense) => { %>
+                <%  if(expense.expenseType === "refreshment") { totalAmount += expense.amount %>
+                    <tr>
+                      <td>Rs. <%= expense.amount %></td>
+                      <td><%= decode(expense.detail) %></td>
+                      <td><%= expense.createdAt.toDateString() %></td>
+                      <td><a href="/employee/expenses/bill?eid=<%= expense._id %>" class="btn btn-secondary" download>Download</a></td>
+                      <td>
+                        <% if(expense.status === true) { %>
+                          <div class="btn btn-success">Approved</div>
+                        <% } else if(expense.status === false){ %>
+                          <div class="btn btn-danger">disapproved</div>
+                        <% } else { %>
+                          <div class="btn btn-warning">pending</div>
+                        <% } %>
+                      </td>
+                    </tr>
+                <% } %>
+              <% }) %>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+      </div>
+      <div class="card-footer">
+        <p class="float-right">Total Amount = <%= totalAmount %></p>
+      </div>
+    </div>
+    <div class="card bg-light mb-3">
+      <div class="card-header">
+        Stationary Expenses
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover">
+          <thead>
+            <tr class="table-primary">
+              <th scope="col">Amount</th>
+              <th scope="col">Detail</th>
+              <th scope="col">Date</th>
+              <th scope="col">Bill Image</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if(expenses) { totalAmount = 0 %>
+              <% expenses.forEach((expense) => { %>
+                <%  if(expense.expenseType === "stationary") { totalAmount += expense.amount %>
+                    <tr>
+                      <td>Rs. <%= expense.amount %></td>
+                      <td><%= decode(expense.detail) %></td>
+                      <td><%= expense.createdAt.toDateString() %></td>
+                      <td><a href="/employee/expenses/bill?eid=<%= expense._id %>" class="btn btn-secondary" download>Download</a></td>
+                      <td>
+                        <% if(expense.status === true) { %>
+                        <div class="btn btn-success">Approved</div>
+                        <% } else if(expense.status === false){ %>
+                          <div class="btn btn-danger">disapproved</div>
+                        <% } else { %>
+                          <div class="btn btn-warning">pending</div>
+                        <% } %>
+                      </td>
+                    </tr>
+                  <% } %>
+              <% }) %>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+      </div>
+      <div class="card-footer">
+        <p class="float-right">Total Amount = <%= totalAmount %></p>
+      </div>
+    </div>
+    <div class="card bg-light mb-3">
+      <div class="card-header">
+        Emergency Expenses
+      </div>
+      <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr class="table-primary">
+              <th scope="col">Amount</th>
+              <th scope="col">Detail</th>
+              <th scope="col">Date</th>
+              <th scope="col">Bill Image</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if(expenses) { totalAmount = 0 %>
+              <% expenses.forEach((expense) => { %>
+                <%  if(expense.expenseType === "emergency") { totalAmount += expense.amount %>
+                    <tr>
+                      <td>Rs. <%= expense.amount %></td>
+                      <td><%= decode(expense.detail) %></td>
+                      <td><%= expense.createdAt.toDateString() %></td>
+                      <td><a href="/employee/expenses/bill?eid=<%= expense._id %>" class="btn btn-secondary" download>Download</a></td>
+                      <td>
+                        <% if(expense.status === true) { %>
+                          <div class="btn btn-success">Approved</div>
+                        <% } else if(expense.status === false){ %>
+                          <div class="btn btn-danger">disapproved</div>
+                        <% } else { %>
+                          <div class="btn btn-warning">pending</div>
+                        <% } %>
+                      </td>
+                    </tr>
+                  <% } %>
+              <% }) %>
+            <% } %>
+          </tbody>
+        </table>
+        </div>
+      </div>
+      <div class="card-footer">
+        <p class="float-right">Total Amount = <%= totalAmount %></p>
+      </div>
+    </div>
+      <div class="card bg-light mb-3">
+      <div class="card-header">
+        Miscellaneous Expenses
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr class="table-primary">
+              <th scope="col">Amount</th>
+              <th scope="col">Detail</th>
+              <th scope="col">Date</th>
+              <th scope="col">Bill Image</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if(expenses) { totalAmount = 0 %>
+              <% expenses.forEach((expense) => { %>
+                <%  if(expense.expenseType === "miscellaneous") { totalAmount += expense.amount %>
+                    <tr>
+                      <td>Rs. <%= expense.amount %></td>
+                      <td><%= decode(expense.detail) %></td>
+                      <td><%= expense.createdAt.toDateString() %></td>
+                      <td><a href="/employee/expenses/bill?eid=<%= expense._id %>" class="btn btn-secondary" download>Download</a></td>
+                      <td>
+                        <% if(expense.status === true) { %>
+                          <div class="btn btn-success">Approved</div>
+                        <% } else if(expense.status === false){ %>
+                          <div class="btn btn-danger">disapproved</div>
+                        <% } else { %>
+                          <div class="btn btn-warning">pending</div>
+                        <% } %>
+                      </td>
+                    </tr>
+                  <% } %>
+              <% }) %>
+            <% } %>
+          </tbody>
+        </table>
+        </div>
+      </div>
+      <div class="card-footer">
+        <p class="float-right">Total Amount = <%= totalAmount %></p>
+      </div>
+    </div>
+  </div>
+<%- include("../partials/footer.ejs") %>
